@@ -1,27 +1,25 @@
 var React = require('react');
 var L = require('leaflet');
+var HandleLayersControl = require('./handlers/LayersControl');
 
 var LayerGroup = React.createClass({
   
   getDefaultProps: function() {
     return {
-      name: 'Group'
+      name: 'Group',
+      controlledLayer: true
     };
   },
 
   componentWillMount: function() {
+    console.log('layer group will mount', this.props);
+
     this.layer = L.layerGroup()
     .addTo(this.props.map);
 
-    if (this.props.layersControl) {
-      this.props.layersControl.addOverlay(this.layer, this.props.name);
-    }
   },
 
   componentWillUnmount: function() {
-    if (this.props.layersControl) {
-      this.props.layersControl.removeLayer(this.layer);
-    }
 
     this.layer.clearLayers();
     this.layer.remove();
@@ -31,13 +29,17 @@ var LayerGroup = React.createClass({
     return (
       <div>
         {
-          this.layer ? React.Children.map(this.props.children, (child, idx) => {
+          React.Children.map(this.props.children, (Child, idx) => {
             const properties = Object.keys(this.props)
             .filter(key => key !== 'children')
             .reduce((p, key) => {p[key] = this.props[key]; return p;}, {});
-              return React.cloneElement(child, { layerGroup: this.layer, ...properties, ...child.props });
-            }) : null
+              return React.cloneElement(Child, { layerGroup: this.layer, ...properties, ...Child.props });
+            })
         } 
+        <HandleLayersControl 
+          layer={this.layer}
+          {...this.props}
+        />
       </div>
     );
   },

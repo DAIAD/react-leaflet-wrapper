@@ -22,11 +22,11 @@ var LayersControl = React.createClass({
     return (
       <div>
         {
-          this.control ? React.Children.map(this.props.children, (child, idx) => {
+          this.control ? React.Children.map(this.props.children, (Child, idx) => {
             const properties = Object.keys(this.props)
             .filter(key => key !== 'children')
             .reduce((p, key) => {p[key] = this.props[key]; return p;}, {});
-              return React.cloneElement(child, { layersControl: this.control, ...properties, ...child.props });
+              return React.cloneElement(Child, { layersControl: this.control, ...properties, ...Child.props });
             }) : null
         } 
       </div>

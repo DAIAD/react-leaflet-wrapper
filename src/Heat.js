@@ -2,6 +2,8 @@ var React = require('react');
 var L = require('leaflet');
 require('leaflet.heat');
 
+var ControlHandlers = require('./handlers/');
+
 var HeatLayer = React.createClass({
   
   getDefaultProps: function() {
@@ -18,21 +20,19 @@ var HeatLayer = React.createClass({
     this.layer = L.heatLayer(this.props.data, this.props)
     .addTo(this.props.map);
     
-    if (this.props.layersControl) {
-      this.props.layersControl.addOverlay(this.layer, this.props.name);
-    }
   },
 
   componentWillUnmount: function() {
-    if (this.props.layersControl) {
-      this.props.layersControl.removeLayer(this.layer);
-    }
-
     this.layer.remove();
   },
 
   render: function() {
-    return null; 
+    return (
+      <ControlHandlers
+        layer={this.layer}
+        {...this.props} 
+      />
+    );
   }
 });
 

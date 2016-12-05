@@ -3,12 +3,15 @@ var { renderToStaticMarkup } = require('react-dom/server');
 var { render, unmountComponentAtNode } = require('react-dom');
 var L = require('leaflet');
 
+var ControlHandlers = require('./handlers/');
+
 var Marker = React.createClass({
-  
+
   getDefaultProps: function() {
     return {
       latlng: null,
-      name: null
+      name: 'Marker',
+      controlledLayer: false
     };
   },
 
@@ -17,10 +20,6 @@ var Marker = React.createClass({
     this.layer = L.marker(this.props.latlng, this.props)
     .addTo(this.props.map);
 
-   
-    if (this.props.layersControl && this.props.name) {
-      this.props.layersControl.addOverlay(this.layer, this.props.name);
-    }
 
     if (this.props.popupContent) {
       this.popup = L.popup();
@@ -29,20 +28,13 @@ var Marker = React.createClass({
         click: this.markerClick
       });
     }
-
-    if (this.props.layerGroup) {
-      this.props.layerGroup.addLayer(this.layer);
-    }
+    
   },
 
   componentWillReceiveProps: function(nextProps) {
   },
 
   componentWillUnmount: function() {
-    
-    if (this.props.layersControl && this.props.name) {
-      this.props.layersControl.removeLayer(this.layer);
-    }
     
     this.layer.off('click');
 
@@ -53,11 +45,7 @@ var Marker = React.createClass({
         unmountComponentAtNode(this.popup._contentNode);
       }
     } 
-
-    if (this.props.layerGroup) {
-      this.props.layerGroup.removeLayer(this.layer);
-    }
-
+    
     this.layer.remove();
   },
 
@@ -78,7 +66,12 @@ var Marker = React.createClass({
   },
 
   render: function() {
-    return null;
+    return ( 
+      <ControlHandlers
+          layer={this.layer}
+          {...this.props} 
+        />
+    );
   }
 });
 

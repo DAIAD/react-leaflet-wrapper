@@ -3,6 +3,8 @@ var { renderToStaticMarkup } = require('react-dom/server');
 var { render, unmountComponentAtNode } = require('react-dom');
 var L = require('leaflet');
 
+var ControlHandlers = require('./handlers/');
+
 var GeoJSON = React.createClass({
   
   getDefaultProps: function() {
@@ -11,7 +13,8 @@ var GeoJSON = React.createClass({
       style: {},
       info: null,
       name: '',
-      circleMarkers: false
+      circleMarkers: false,
+      controlledLayer: true,
     };
   },
 
@@ -28,20 +31,12 @@ var GeoJSON = React.createClass({
     if (this.props.infoContent && this.props.updateInfo) {
       this.props.updateInfo(renderToStaticMarkup(this.props.infoContent()));
     }
-
-    if (this.props.layersControl) {
-      this.props.layersControl.addOverlay(this.layer, this.props.name);
-    }
-
+    
     if (this.props.popupContent) {
       this.popup = L.popup();
       this.layer.bindPopup(this.popup);
     }
-
-    if (this.props.layerGroup) {
-      this.props.layerGroup.addLayer(this.layer);
-    }
-
+   
   },
 
   componentWillReceiveProps: function(nextProps) {
@@ -52,10 +47,7 @@ var GeoJSON = React.createClass({
   },
 
   componentWillUnmount: function() {
-    
-    if (this.props.layersControl) {
-      this.props.layersControl.removeLayer(this.layer);
-    }
+
     if (this.popup) {
       this.popup.remove();
       
@@ -63,10 +55,6 @@ var GeoJSON = React.createClass({
         unmountComponentAtNode(this.popup._contentNode);
       }
     } 
-
-    if (this.props.layerGroup) {
-      this.props.layerGroup.removeLayer(this.layer);
-    }
 
     this.layer.remove();
   },
@@ -128,7 +116,12 @@ var GeoJSON = React.createClass({
   },
 
   render: function() {
-    return null;
+    return (
+        <ControlHandlers
+          layer={this.layer}
+          {...this.props} 
+        />
+    );
   }
 });
 

@@ -1,12 +1,15 @@
 var React = require('react');
 var L = require('leaflet');
 
+var ControlHandlers = require('./handlers/');
+
 var Tile = React.createClass({
   getDefaultProps: function() {
     return {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      name: 'Base'
+      name: 'Base',
+      controlledLayer: true,
     };
   },
 
@@ -15,21 +18,24 @@ var Tile = React.createClass({
       attribution: this.props.attribution,
       ...this.props
     }).addTo(this.props.map);
-    
-    if (this.props.layersControl) {
-      this.props.layersControl.addBaseLayer(this.layer, this.props.name);
-    }
+
   },
 
   componentWillUnmount: function() {
-    if (this.props.layersControl) {
-      this.props.layersControl.removeLayer(this.layer);
-    }
+
     this.layer.remove();
   },
 
   render: function() {
-    return null;
+    return (
+      <div>
+        <ControlHandlers
+          layer={this.layer}
+          type='base'
+          {...this.props} 
+        />
+      </div>
+    );
   }
 });
 
