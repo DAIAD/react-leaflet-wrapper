@@ -47,8 +47,9 @@ var Choropleth = React.createClass({
     return this.props.buckets ? this.props.buckets : (
       this.props.limits ? 
          Array.from({ length: this.props.steps+1 }, (v, i) => i === this.props.steps ? this.props.limits[1] : this.props.limits[0] + (i*Math.round((this.props.limits[1]-this.props.limits[0])/(this.props.steps)))) 
-           : 
-             chroma.limits(values, this.props.mode, this.props.steps)
+           : ( Array.isArray(values) && values.length > 0 ?  
+              chroma.limits(values, this.props.mode, this.props.steps)
+              : [])
     );
   },
   
