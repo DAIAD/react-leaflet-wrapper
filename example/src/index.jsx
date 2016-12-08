@@ -1,5 +1,5 @@
 import React from 'react';
-import { Example1, Example2, Example3, Example4 } from './examples';
+import { Example1, Example2, Example3, Example4, Example5 } from './examples';
 
 const examples = [
   {
@@ -24,6 +24,12 @@ const examples = [
     title: 'Example 4', 
     description: 'Layers Control', 
     component: Example4, 
+    url: '' 
+  },
+  {
+    title: 'Example 5', 
+    description: 'Draw Control', 
+    component: Example5, 
     url: '' 
   },
 ];

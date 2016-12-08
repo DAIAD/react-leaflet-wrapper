@@ -7,14 +7,16 @@ var DrawControl = React.createClass({
   getDefaultProps: function() {
     return {
       position: 'topleft',
+      data: null,
       edit: {},
-      draw: {}
+      draw: {},
+      style: {}
     };
   },
 
   componentWillMount: function() {
-  
-    this.drawnItems = new L.FeatureGroup();
+
+    this.drawnItems = L.geoJSON();
     this.props.map.addLayer(this.drawnItems);
 
     //have to break Control -> Layer logic
@@ -28,11 +30,26 @@ var DrawControl = React.createClass({
       draw: this.getDrawOptions()
     });
     this.control.addTo(this.props.map);
+
+    this.drawnItems.addData(this.props.data);
+    this.drawnItems.setStyle(this.control.options.draw.polygon.shapeOptions);
     
     this.props.map.on('draw:created', this.createHandler);
     this.props.map.on('draw:edited', this.editHandler);
     this.props.map.on('draw:deleted', this.deleteHandler);
 
+  },
+  
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.data !== this.props.data) {
+      this.drawnItems.clearLayers();
+      if (nextProps.data) {
+        this.drawnItems.addData(nextProps.data);
+        //TODO: need to set style at this point cause it automatically resets to default
+        this.drawnItems.setStyle(this.control.options.draw.polygon.shapeOptions);
+      }
+      
+    }  
   },
 
   componentWillUnmount: function() {
@@ -52,7 +69,8 @@ var DrawControl = React.createClass({
       rectangle: {
         shapeOptions: {
           color: '#2c3e50',
-          fillColor: '#2980b9'
+          fillColor: '#2980b9',
+          ...this.props.style
         }
       },
       circle: false,
@@ -62,7 +80,8 @@ var DrawControl = React.createClass({
         showArea: true,
         shapeOptions: {
           color: '#2c3e50',
-          fillColor: '#2980b9'
+          fillColor: '#2980b9',
+          ...this.props.style
         }
       },
       ...this.props.draw
@@ -80,9 +99,12 @@ var DrawControl = React.createClass({
   createHandler: function (e) {
     const layer = e.layer;
 
+    /*
     this.drawnItems.eachLayer(layer => {
       this.drawnItems.removeLayer(layer);
-    });
+      });
+      */
+    this.drawnItems.clearLayers();
     
     this.drawnItems.addLayer(layer);
     
@@ -91,7 +113,7 @@ var DrawControl = React.createClass({
     }
 
     if(typeof this.props.onFeatureChange === 'function') {
-      this.props.onFeatureChange(this.drawnItems.toGeoJSON().features);
+      this.props.onFeatureChange(this.drawnItems.toGeoJSON());
     }
   },
 
@@ -109,7 +131,7 @@ var DrawControl = React.createClass({
     });
 
     if(typeof this.props.onFeatureChange === 'function') {
-      this.props.onFeatureChange(this.drawnItems.toGeoJSON().features);
+      this.props.onFeatureChange(this.drawnItems.toGeoJSON());
     }
 
   },
@@ -118,11 +140,12 @@ var DrawControl = React.createClass({
     const layer = e.layers;
 
     if(typeof this.props.onFeatureChange === 'function') {
-      this.props.onFeatureChange(this.drawnItems.toGeoJSON().features);
+      this.props.onFeatureChange(this.drawnItems.toGeoJSON());
     }
   },
 
   render: function() {
+
     return null; 
   }
 });
