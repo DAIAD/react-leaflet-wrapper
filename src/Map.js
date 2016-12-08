@@ -22,8 +22,13 @@ var LeafletMap = React.createClass({
   },
 
   componentWillReceiveProps : function(nextProps) {
-    if ((nextProps.center || nextProps.zoom) && this.state.map) {
-      this.state.map.setView(nextProps.center || this.props.center, nextProps.zoom || this.props.zoom);
+    if (nextProps.center && 
+        (nextProps.center[0] !== this.props.center[0] || nextProps.center[1] !== this.props.center[1])  && 
+        this.state.map) {
+          this.state.map.setView(nextProps.center);
+        }
+    if (nextProps.zoom && nextProps.zoom !== this.props.zoom && this.state.map) {
+      this.state.map.setZoom(nextProps.zoom);
     }
   },
  
