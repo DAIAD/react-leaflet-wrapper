@@ -9,8 +9,9 @@ const renderFullPage = () =>
   `<!doctype html> 
   <html> 
     <head> 
-      <title>Test react-wizard</title> 
-      <link href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.css" rel="stylesheet" />
+      <title>Test react-leaflet-wrapper</title> 
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0/dist/leaflet.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
       <link href="dist/style.css" rel="stylesheet" />
       <link rel="icon" href="data:;base64,iVBORw0KGgo="> 
     </head> 
