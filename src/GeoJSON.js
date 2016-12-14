@@ -43,6 +43,10 @@ var GeoJSON = React.createClass({
     if (nextProps.data) {
       this.layer.clearLayers();
       this.layer.addData(nextProps.data);
+      
+      if (this.popup) {
+        this.popup.remove();
+      }
     }
   },
 
