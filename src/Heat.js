@@ -19,7 +19,6 @@ var HeatLayer = React.createClass({
   componentWillMount: function() {
     this.layer = L.heatLayer(this.props.data, this.props)
     .addTo(this.props.map);
-    
   },
 
   componentWillUnmount: function() {

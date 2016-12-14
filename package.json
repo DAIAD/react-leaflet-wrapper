@@ -1,7 +1,7 @@
 {
   "name": "react-leaflet-wrapper",
   "version": "0.0.1",
-  "description": "React components that wrap leaflet elements",
+  "description": "A React wrapper for leafletjs",
   "main": "lib/index.js",
   "keywords": [
     "react",

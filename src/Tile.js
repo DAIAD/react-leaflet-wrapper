@@ -22,7 +22,6 @@ var Tile = React.createClass({
   },
 
   componentWillUnmount: function() {
-
     this.layer.remove();
   },
 
