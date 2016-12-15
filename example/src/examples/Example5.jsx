@@ -17,9 +17,10 @@ export class Example5 extends React.Component {
       <div>
         <h1>Leaflet draw control</h1>
 
-        <button style={{ float: 'right' }} onClick={() => { this.setState({ geometry: null }); }}>Reset geometry</button>
+        <button style={{ float: 'right', marginBottom: 20 }} onClick={() => { this.setState({ geometry: null }); }}>Reset geometry</button>
         <Map
-          style={{ width: '100%', marginTop: 50, height: 600 }}
+          width='100%'
+          height={600}
           center={[39.73, -104.99]}
           zoom={10}
           >

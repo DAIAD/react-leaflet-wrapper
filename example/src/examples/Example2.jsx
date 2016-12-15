@@ -16,7 +16,8 @@ export class Example2 extends React.Component {
         <h1>Leaflet GeoJSON example</h1>
 
          <Map
-           style={{ width: '100%', height: 400 }}
+           width='100%'
+           height={400}
            center={[39.74739, -105]}
            zoom={13}
            >

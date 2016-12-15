@@ -14,7 +14,8 @@ export class Example1 extends React.Component {
         <h1>First leaflet example</h1>
 
           <Map
-            style={{ width: '100%', height: 300 }}
+            width='100%'
+            height={300}
             center={[51.505, -0.09]}
             zoom={13}
             >

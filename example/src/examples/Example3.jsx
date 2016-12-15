@@ -27,7 +27,8 @@ export class Example3 extends React.Component {
         <h1>Leaflet choropleth example</h1>
 
         <Map
-          style={{ width: '100%', marginTop: 50, height: 600 }}
+          width='100%'
+          height={600}
           center={[37.8, -96]}
           zoom={4}
           >

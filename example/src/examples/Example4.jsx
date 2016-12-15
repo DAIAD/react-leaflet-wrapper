@@ -18,7 +18,8 @@ export class Example4 extends React.Component {
         <h1>Leaflet layers control</h1>
 
         <Map
-          style={{ width: '100%', marginTop: 50, height: 600 }}
+          width='100%'
+          height={600}
           center={[39.73, -104.99]}
           zoom={10}
           >
