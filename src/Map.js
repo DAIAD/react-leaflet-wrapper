@@ -12,6 +12,8 @@ var LeafletMap = React.createClass({
       prefix: 'map',
       center: [0 ,0],
       zoom: 13,
+      width: '100%',
+      height: 400
     };
   },
 
@@ -41,7 +43,7 @@ var LeafletMap = React.createClass({
   },
 
   render: function() {
-    const { style, children } = this.props;
+    const { children } = this.props;
     const { map } = this.state;
     return (
       <div className={this.props.prefix}>
@@ -76,7 +78,7 @@ var MapComponent = React.createClass({
   render: function() {
     return (
       <div 
-        style={this.props.style}
+        style={{ width: this.props.width, height: this.props.height }}
       />
     );
   }
