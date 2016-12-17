@@ -7,20 +7,15 @@ var HandleLayersControl = React.createClass({
     };
   },
   componentWillMount: function() {
-    if (this.props.layersControl && this.props.controlledLayer) {
-      if (this.props.type === 'overlay') {
-        this.props.layersControl.addOverlay(this.props.layer, this.props.name);
-      }
-      else if (this.props.type === 'base') {
-        this.props.layersControl.addBaseLayer(this.props.layer, this.props.name);
-      }
+    if (this.props.type === 'overlay') {
+      this.props.layersControl.addOverlay(this.props.layer, this.props.name);
+    }
+    else if (this.props.type === 'base') {
+      this.props.layersControl.addBaseLayer(this.props.layer, this.props.name);
     }
   },
   componentWillUnmount: function() {
-    if (this.props.layersControl && this.props.controlledLayer) {
-      this.props.layersControl.removeLayer(this.props.layer);
-    }
-
+    this.props.layersControl.removeLayer(this.props.layer);
   },
   render: function() {
     return null;
