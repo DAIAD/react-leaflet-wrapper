@@ -36,9 +36,9 @@ class DrawControl  extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data !== this.state.data) {
-      this.setState({ data: nextProps.data });
-    }
+    //if (nextProps.data !== this.state.data) {
+    //  this.setState({ data: nextProps.data });
+    //}
   }
 
   componentWillUnmount() {
@@ -78,7 +78,10 @@ class DrawControl  extends React.Component {
   }
 
   createHandler(e) {
-    const layer = e.layer.toGeoJSON();
+    const layer = {
+      type: 'FeatureCollection',
+      features: [e.layer.toGeoJSON()]
+    };
     this.updateData(layer);
   }
 
@@ -119,7 +122,10 @@ DrawControl.defaultProps = {
   data: null,
   edit: {},
   draw: {},
-  style: {}
+  style: {
+    color: '#2c3e50',
+    fillColor: '#2980b9'
+  }
 };
 
 module.exports = DrawControl;

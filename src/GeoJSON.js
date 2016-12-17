@@ -25,7 +25,7 @@ class GeoJSON  extends React.Component {
     if (nextProps.data == null) {
       this.layer.clearLayers();
     }
-    if (nextProps.data) {
+    if (nextProps.data && nextProps.data !== this.props.data) {
       this.layer.clearLayers();
       this.layer.addData(nextProps.data);
     }
