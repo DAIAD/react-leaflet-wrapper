@@ -18,6 +18,7 @@ var Marker = React.createClass({
       latlng: null,
       name: 'Marker',
       controlledLayer: false,
+      draggable: false,
     };
   },
 

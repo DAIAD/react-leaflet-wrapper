@@ -12,7 +12,6 @@ var LayerGroup = React.createClass({
   },
 
   componentWillMount: function() {
-    console.log('layer group will mount', this.props);
 
     this.layer = L.layerGroup()
     .addTo(this.props.map);
