@@ -25,12 +25,12 @@ React components that wrap Leaflet js v.1.0.0 (http://leafletjs.com) elements. <
 ### Indicative components type hierarchy 
 
     <Map>
-      <Layer1 />
-      <Control1>
-        <Layer2 />
-        <Layer3 />
-      </Control1>
-      <Control2 />
+      <Layer />
+      <Control>
+        <Layer />
+        <Layer />
+      </Control>
+      <Control />
     </Map>
 
 ## Example
