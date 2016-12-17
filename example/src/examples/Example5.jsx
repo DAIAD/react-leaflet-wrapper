@@ -29,6 +29,10 @@ export default class Example5 extends React.Component {
           <DrawControl
             onFeatureChange={features => this.setState({ geometry: features })}
             data={geometry}
+            style={{ 
+              color: '#2c3e50',
+              fillColor: '#2980b9'
+            }}
           />
 
         </Map>
