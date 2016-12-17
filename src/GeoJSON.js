@@ -6,7 +6,12 @@ var L = require('leaflet');
 var ControlHandlers = require('./handlers/');
 
 var GeoJSON = React.createClass({
-  
+  getInitialState: function() {
+    return {
+      mouseover: null,
+      click: null
+    };
+  },
   getDefaultProps: function() {
     return {
       data: null,
@@ -21,94 +26,62 @@ var GeoJSON = React.createClass({
   componentWillMount: function() {
     
     this.layer = L.geoJson(this.props.data, { 
-      style: this.props.style,
       onEachFeature: this.onEachFeature,
       pointToLayer: this.props.circleMarkers ? this.pointToCircleMarker : this.pointToMarker,
       ...this.props,
     }).addTo(this.props.map);
 
-
-    if (this.props.infoContent && this.props.updateInfo) {
-      this.props.updateInfo(renderToStaticMarkup(this.props.infoContent()));
-    }
-    
-    if (this.props.popupContent) {
-      this.popup = L.popup();
-      this.layer.bindPopup(this.popup);
-    }
-   
   },
 
   componentWillReceiveProps: function(nextProps) {
+    if (nextProps.data == null) {
+      this.layer.clearLayers();
+    }
     if (nextProps.data) {
       this.layer.clearLayers();
       this.layer.addData(nextProps.data);
-      
-      if (this.popup) {
-        this.popup.remove();
-      }
     }
   },
 
   componentWillUnmount: function() {
-
-    if (this.popup) {
-      this.popup.remove();
-      
-      if (this.popup._contentNode) {
-        unmountComponentAtNode(this.popup._contentNode);
-      }
-    } 
-
     this.layer.remove();
   },
 
-  defaultHighlight: function(e) {
-    const layer = e.target;
+  featureClick: function(feature, layer) {
+    
+    if (typeof this.props.onClick === 'function') {
+      this.props.onClick(feature, layer, this.props.map);
+    }
 
-    if (!(layer.feature.geometry.type === 'Point' && !this.props.circleMarkers)) {
+    this.setState({ click: feature });
+  },
+
+  featureMouseover: function(feature, layer) {
+    
+    if (this.props.highlightStyle && (layer.feature.geometry.type !== 'Point' || this.props.circleMarkers)) {
       layer.setStyle(this.props.highlightStyle);
       
       if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
       }
     }
- 
-    if (this.props.infoContent) {
-      this.props.updateInfo(renderToStaticMarkup(this.props.infoContent(layer.feature)));
-    }
-  },
-
-  defaultReset: function(e) {
-  
-    this.layer.resetStyle(e.target);
-    if (this.props.infoContent) {
-      this.props.updateInfo(renderToStaticMarkup(this.props.infoContent()));
-    }
-  },
-
-  featureClick: function(feature, layer) {
-    if (this.props.popupContent) {
-      if (!this.popup._contentNode) {
-        this.popup
-        .setLatLng(this.props.map.getCenter())
-        .openOn(this.props.map);
-      }
-      render(this.props.popupContent(feature), this.popup._contentNode)
-      //this.popup.update();
-    }
     
-    if (typeof this.props.onClick === 'function') {
-      this.props.onClick(this.props.map, layer, feature);
+    this.setState({ mouseover: feature });
+  },
+
+  featureMouseout: function(feature, layer) {
+    if (this.props.highlightStyle && (layer.feature.geometry.type !== 'Point' || this.props.circleMarkers)) {
+    this.layer.resetStyle(layer);
     }
+    this.setState({ mouseover: null });
   },
 
   onEachFeature: function(feature, layer) {
     layer.on({
-      mouseover: this.props.onHighlight || this.defaultHighlight,
-      mouseout: this.props.onReset || this.defaultReset,
+      mouseover: this.featureMouseover.bind(null, feature, layer),
+      mouseout: this.featureMouseout.bind(null, feature, layer),
       click: this.featureClick.bind(null, feature, layer)
-    });
+    }); 
   },
 
   pointToCircleMarker: function(point, latlng) {
@@ -123,6 +96,8 @@ var GeoJSON = React.createClass({
     return (
         <ControlHandlers
           layer={this.layer}
+          click={this.state.click}
+          mouseover={this.state.mouseover}
           {...this.props} 
         />
     );
