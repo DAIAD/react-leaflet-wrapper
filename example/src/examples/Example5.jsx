@@ -1,7 +1,7 @@
 import React from 'react';
 import { Map, TileLayer, DrawControl } from '../../../src/';
 
-export class Example5 extends React.Component {
+export default class Example5 extends React.Component {
 
   constructor (props) {
     super(props);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Map, TileLayer, LayerGroup, Marker, LayersControl } from '../../../src/';
 
-export class Example4 extends React.Component {
+export default class Example4 extends React.Component {
 
   constructor (props) {
     super(props);

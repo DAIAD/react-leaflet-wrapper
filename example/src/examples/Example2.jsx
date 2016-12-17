@@ -4,7 +4,7 @@ import L from 'leaflet';
 
 import GEOJSON from '../geojson';
 
-export class Example2 extends React.Component {
+export default class Example2 extends React.Component {
 
   constructor (props) {
     super(props);

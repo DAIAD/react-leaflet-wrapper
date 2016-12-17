@@ -4,7 +4,7 @@ import { Map, TileLayer, Choropleth, InfoControl } from '../../../src/';
 
 const STATES_URL = 'dist/states.json';
 
-export class Example3 extends React.Component {
+export default class Example3 extends React.Component {
 
   constructor (props) {
     super(props);
