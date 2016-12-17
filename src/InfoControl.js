@@ -1,16 +1,12 @@
-var React = require('react');
-var L = require('leaflet');
+import React from 'react';
+import L from 'leaflet';
 
-var InfoControl = React.createClass({
-  
-  getDefaultProps: function() {
-    return {
-      position: 'bottomright',
-      className: 'info'
-    };
-  },
+class InfoControl  extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  componentWillMount: function() {
+  componentWillMount() {
     this.control = L.control({ position: this.props.position });
   
     this.control.onAdd = map => 
@@ -18,16 +14,17 @@ var InfoControl = React.createClass({
 
     this.control.addTo(this.props.map);
     this.updateInfo('');
-  },
-  componentWillUnmount: function() {
-    this.control.remove();
-  },
-  
-  updateInfo: function(display) {
-    this.control.getContainer().innerHTML = display;
-  },
+  }
 
-  render: function() {
+  componentWillUnmount() {
+    this.control.remove();
+  }
+  
+  updateInfo(display) {
+    this.control.getContainer().innerHTML = display;
+  }
+
+  render() {
     return (
       <div>
         {
@@ -36,11 +33,17 @@ var InfoControl = React.createClass({
               .filter(key => key !== 'children')
               .reduce((p, key) => {p[key] = this.props[key]; return p;}, {});
               
-            return React.cloneElement(child, { infoControl: this.control, updateInfo: this.updateInfo, ...properties, ...child.props }); }) : null
+            return React.cloneElement(child, { infoControl: this.control, updateInfo: this.updateInfo.bind(this), ...properties, ...child.props }); }) : null
         } 
       </div>
     );
-  },
-});
+  }
+}
+
+InfoControl.defaultProps = {
+  position: 'bottomright',
+  className: 'info'
+};
+
 
 module.exports = InfoControl;

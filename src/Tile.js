@@ -1,31 +1,26 @@
-var React = require('react');
-var L = require('leaflet');
+import React from 'react';
+import L from 'leaflet';
 
-var ControlHandlers = require('./handlers/');
+import ControlHandlers from './handlers/';
 
-var Tile = React.createClass({
-  getDefaultProps: function() {
-    return {
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      name: 'Base',
-      controlledLayer: true,
-    };
-  },
+class Tile  extends React.Component {
 
-  componentWillMount: function() {
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {
     this.layer = L.tileLayer(this.props.url, {
       attribution: this.props.attribution,
       ...this.props
     }).addTo(this.props.map);
+  }
 
-  },
-
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.layer.remove();
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div>
         <ControlHandlers
@@ -36,6 +31,14 @@ var Tile = React.createClass({
       </div>
     );
   }
-});
+}
+
+Tile.defaultProps = {
+  url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+  name: 'Base',
+  controlledLayer: true,
+};
+
 
 module.exports = Tile;

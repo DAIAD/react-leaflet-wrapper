@@ -1,39 +1,27 @@
-var React = require('react');
-var { renderToStaticMarkup } = require('react-dom/server');
-var { render, unmountComponentAtNode } = require('react-dom');
-var L = require('leaflet');
+import React from 'react';
+import L from 'leaflet';
 
-var ControlHandlers = require('./handlers/');
+import ControlHandlers from './handlers/';
 
-var GeoJSON = React.createClass({
-  getInitialState: function() {
-    return {
+class GeoJSON  extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       mouseover: null,
       click: null
     };
-  },
-  getDefaultProps: function() {
-    return {
-      data: null,
-      style: {},
-      info: null,
-      name: '',
-      circleMarkers: false,
-      controlledLayer: true,
-    };
-  },
+  }
 
-  componentWillMount: function() {
-    
+  componentWillMount() {
     this.layer = L.geoJson(this.props.data, { 
-      onEachFeature: this.onEachFeature,
-      pointToLayer: this.props.circleMarkers ? this.pointToCircleMarker : this.pointToMarker,
+      onEachFeature: this.onEachFeature.bind(this),
+      pointToLayer: this.props.circleMarkers ? this.pointToCircleMarker.bind(this) : this.pointToMarker.bind(this),
       ...this.props,
     }).addTo(this.props.map);
+  }
 
-  },
-
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.data == null) {
       this.layer.clearLayers();
     }
@@ -41,23 +29,21 @@ var GeoJSON = React.createClass({
       this.layer.clearLayers();
       this.layer.addData(nextProps.data);
     }
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.layer.remove();
-  },
+  }
 
-  featureClick: function(feature, layer) {
-    
+  featureClick(feature, layer) {
     if (typeof this.props.onClick === 'function') {
       this.props.onClick(feature, layer, this.props.map);
     }
 
     this.setState({ click: feature });
-  },
+  }
 
-  featureMouseover: function(feature, layer) {
-    
+  featureMouseover(feature, layer) {
     if (this.props.highlightStyle && (layer.feature.geometry.type !== 'Point' || this.props.circleMarkers)) {
       layer.setStyle(this.props.highlightStyle);
       
@@ -67,32 +53,32 @@ var GeoJSON = React.createClass({
     }
     
     this.setState({ mouseover: feature });
-  },
+  }
 
-  featureMouseout: function(feature, layer) {
+  featureMouseout(feature, layer) {
     if (this.props.highlightStyle && (layer.feature.geometry.type !== 'Point' || this.props.circleMarkers)) {
     this.layer.resetStyle(layer);
     }
     this.setState({ mouseover: null });
-  },
+  }
 
-  onEachFeature: function(feature, layer) {
+  onEachFeature(feature, layer) {
     layer.on({
-      mouseover: this.featureMouseover.bind(null, feature, layer),
-      mouseout: this.featureMouseout.bind(null, feature, layer),
-      click: this.featureClick.bind(null, feature, layer)
+      mouseover: this.featureMouseover.bind(this, feature, layer),
+      mouseout: this.featureMouseout.bind(this, feature, layer),
+      click: this.featureClick.bind(this, feature, layer)
     }); 
-  },
+  }
 
-  pointToCircleMarker: function(point, latlng) {
+  pointToCircleMarker(point, latlng) {
     return L.circleMarker(latlng, this.props.markerStyle || this.props.style);
-  },
+  }
 
-  pointToMarker: function(point, latlng) {
+  pointToMarker(point, latlng) {
     return L.marker(latlng, this.props.markerOptions);
-  },
+  }
 
-  render: function() {
+  render() {
     return (
         <ControlHandlers
           layer={this.layer}
@@ -102,6 +88,16 @@ var GeoJSON = React.createClass({
         />
     );
   }
-});
+}
+
+GeoJSON.defaultProps = {
+  data: null,
+  style: {},
+  info: null,
+  name: '',
+  circleMarkers: false,
+  controlledLayer: true,
+};
+
 
 module.exports = GeoJSON;

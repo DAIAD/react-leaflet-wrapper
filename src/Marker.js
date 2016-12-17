@@ -1,58 +1,47 @@
-var React = require('react');
-var { renderToStaticMarkup } = require('react-dom/server');
-var { render, unmountComponentAtNode } = require('react-dom');
-var L = require('leaflet');
+import React from 'react';
+import L from 'leaflet';
 
-var ControlHandlers = require('./handlers/');
+import ControlHandlers from './handlers/';
 
-var Marker = React.createClass({
+class Marker  extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getInitialState: function() {
-    return {
-      click: null,
-      mouseover: null, 
+    this.state = {
+      mouseover: null,
+      click: null
     };
-  },
-  getDefaultProps: function() {
-    return {
-      latlng: null,
-      name: 'Marker',
-      controlledLayer: false,
-      draggable: false,
-    };
-  },
+  }
 
-  componentWillMount: function() {
+  componentWillMount() {
     this.layer = L.marker(this.props.latlng, this.props)
     .addTo(this.props.map);
 
     this.layer.on({
-      click: this.onMarkerClick,
-      mouseover: this.onMarkerMouseover,
-      mouseout: this.onMarkerMouseout
+      click: this.onMarkerClick.bind(this),
+      mouseover: this.onMarkerMouseover.bind(this),
+      mouseout: this.onMarkerMouseout.bind(this)
     });
+  }
 
-  },
-
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.layer.remove();
     this.layer.off('click', this.onMarkerClick);
+  }
 
-  },
-
-  onMarkerClick: function(e) {
+  onMarkerClick(e) {
     this.setState({ click: e.target }); 
-  },
+  }
 
-  onMarkerMouseover: function(e) {
+  onMarkerMouseover(e) {
     this.setState({ mouseover: e.target });
-  },
+  }
 
-  onMarkerMouseout: function(e) {
+  onMarkerMouseout(e) {
     this.setState({ mouseover: null });
-  },
+  }
 
-  render: function() {
+  render() {
     return ( 
       <ControlHandlers
           layer={this.layer}
@@ -62,6 +51,14 @@ var Marker = React.createClass({
         />
     );
   }
-});
+}
+
+Marker.defaultProps = {
+  latlng: null,
+  name: 'Marker',
+  controlledLayer: false,
+  draggable: false,
+};
+
 
 module.exports = Marker;

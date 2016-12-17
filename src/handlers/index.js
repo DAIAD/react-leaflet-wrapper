@@ -1,12 +1,12 @@
-var React = require('react');
+import React from 'react';
 
-var HandleLayerGroup = require('./LayerGroup');
-var HandleLayersControl = require('./LayersControl');
-var HandlePopup = require('./Popup');
-var HandleInfoControl = require('./InfoControl');
+import HandleLayerGroup from './LayerGroup';
+import HandleLayersControl from './LayersControl';
+import HandlePopup from './Popup';
+import HandleInfoControl from './InfoControl';
 
 const ControlHandlers = function (props) {
-  return (  
+  return (
     <div> 
       {
         props.layerGroup ? 

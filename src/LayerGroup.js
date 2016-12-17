@@ -1,30 +1,24 @@
-var React = require('react');
-var L = require('leaflet');
-var HandleLayersControl = require('./handlers/LayersControl');
+import React from 'react';
+import L from 'leaflet';
 
-var LayerGroup = React.createClass({
-  
-  getDefaultProps: function() {
-    return {
-      name: 'Group',
-      controlledLayer: true
-    };
-  },
+import HandleLayersControl from './handlers/LayersControl';
 
-  componentWillMount: function() {
+class LayerGroup  extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
+  componentWillMount() {
     this.layer = L.layerGroup()
     .addTo(this.props.map);
+  }
 
-  },
-
-  componentWillUnmount: function() {
-
+  componentWillUnmount() {
     this.layer.clearLayers();
     this.layer.remove();
-  }, 
+  }
 
-  render: function() {
+  render() {
     return (
       <div>
         {
@@ -41,7 +35,13 @@ var LayerGroup = React.createClass({
         />
       </div>
     );
-  },
-});
+  }
+}
+
+LayerGroup.defaultProps = {
+  name: 'Group',
+  controlledLayer: true
+};
+
 
 module.exports = LayerGroup;

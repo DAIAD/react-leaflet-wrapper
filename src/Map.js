@@ -1,29 +1,18 @@
-var React = require('react');
-var { findDOMNode } = require('react-dom');
+import React from 'react';
+import { findDOMNode } from 'react-dom';
+import L from 'leaflet';
 
-var L = require('leaflet');
-//L.Icon.Default.imagePath = '/assets/lib/leaflet/images/';
-
-
-var LeafletMap = React.createClass({
+class LeafletMap extends React.Component {
   
-  getDefaultProps: function() {
-    return {
-      prefix: 'map',
-      center: [0 ,0],
-      zoom: 13,
-      width: '100%',
-      height: 400
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      map: null
     };
-  },
+  }
 
-  getInitialState: function() {
-    return {
-      map: null 
-    };
-  },
-
-  componentWillReceiveProps : function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.center && 
         (nextProps.center[0] !== this.props.center[0] || nextProps.center[1] !== this.props.center[1])  && 
         this.state.map) {
@@ -32,24 +21,24 @@ var LeafletMap = React.createClass({
     if (nextProps.zoom && nextProps.zoom !== this.props.zoom && this.state.map) {
       this.state.map.setZoom(nextProps.zoom);
     }
-  },
+  }
  
-  componentWillUnmount : function() {
+  componentWillUnmount() {
     this.state.map.remove();
-  },
+  }
   
-  setMap: function(map) {
+  setMap(map) {
     this.setState({ map });
-  },
+  }
 
-  render: function() {
+  render() {
     const { children } = this.props;
     const { map } = this.state;
     return (
       <div className={this.props.prefix}>
         <MapComponent
           {...this.props}
-          setMap={this.setMap}
+          setMap={this.setMap.bind(this)}
         />
         {
           map ? 
@@ -59,29 +48,40 @@ var LeafletMap = React.createClass({
         }
         </div>
     );
-  },
+  }
+}
 
-});
+LeafletMap.defaultProps = {
+  prefix: 'map',
+  center: [0 ,0],
+  zoom: 13,
+  width: '100%',
+  height: 400
+};
 
 //leaflet lives under here
-var MapComponent = React.createClass({
+class MapComponent extends React.Component {
 
-  componentDidMount: function() {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
     const map = L.map(findDOMNode(this), this.props);
     this.props.setMap(map);  
-  },
+  }
 
-  shouldComponentUpdate : function() {
+  shouldComponentUpdate() {
     return false;
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div 
         style={{ width: this.props.width, height: this.props.height }}
       />
     );
   }
-});
+}
 
 module.exports = LeafletMap;

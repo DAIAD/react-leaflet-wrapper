@@ -1,35 +1,27 @@
-var React = require('react');
-var L = require('leaflet');
-require('leaflet-draw');
-var GeoJSON = require('./GeoJSON');
+import React from 'react';
+import L from 'leaflet';
+import 'leaflet-draw';
 
-var DrawControl = React.createClass({
-  
-  getInitialState: function() {
-    return {
+import GeoJSON from './GeoJSON';
+import ControlHandlers from './handlers/';
+
+class DrawControl  extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       data: this.props.data,
-      geojson: null,
+      geojson: null
     };
-  },
+  }
 
-  getDefaultProps: function() {
-    return {
-      position: 'topleft',
-      data: null,
-      edit: {},
-      draw: {},
-      style: {}
-    };
-  },
-
-  componentWillMount: function() {
-    this.props.map.on('draw:created', this.createHandler);
-    this.props.map.on('draw:edited', this.editHandler);
-    this.props.map.on('draw:deleted', this.deleteHandler);
-
-  },
+  componentWillMount() {
+    this.props.map.on('draw:created', this.createHandler.bind(this));
+    this.props.map.on('draw:edited', this.editHandler.bind(this));
+    this.props.map.on('draw:deleted', this.deleteHandler.bind(this));
+  }
   
-  componentWillUpdate: function(nextProps, nextState) {
+  componentWillUpdate(nextProps, nextState) {
     if (nextState.geojson && !this.state.geojson) {
       this.control = new L.Control.Draw({
         position: this.props.position,
@@ -41,25 +33,23 @@ var DrawControl = React.createClass({
       });
       this.control.addTo(this.props.map);
     }
-  },
+  }
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.data) {
       this.setState({ data: nextProps.data });
     }
-  },
+  }
 
-  componentWillUnmount: function() {
-    
+  componentWillUnmount() {
     this.control.remove();
     
     this.props.map.off('draw:created');
     this.props.map.off('draw:edited');
     this.props.map.off('draw:deleted');
+  }
 
-  },
-
-  getDrawOptions: function() {
+  getDrawOptions() {
     return {
       polyline: false,
       rectangle: {
@@ -77,39 +67,39 @@ var DrawControl = React.createClass({
         }
       },
     };
-  },
+  }
 
-  getEditOptions: function() {
+  getEditOptions() {
     return {
       edit: true,
       remove: true,
       ...this.props.edit
     };
-  },
+  }
 
-  createHandler: function (e) {
+  createHandler(e) {
     const layer = e.layer.toGeoJSON();
     this.updateData(layer);
-  },
+  }
 
-  editHandler: function(e) {
+  editHandler(e) {
     const layer = e.layers.toGeoJSON();
     this.updateData(layer);
-  },
+  }
 
-  deleteHandler: function (e) {
+  deleteHandler(e) {
     this.updateData(null);
-  },
+  }
 
-  updateData: function(data) {
+  updateData(data) {
     this.setState({ data });
 
     if(typeof this.props.onFeatureChange === 'function') {
       this.props.onFeatureChange(data);
     }
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <GeoJSON
         ref={geojson => { 
@@ -122,6 +112,14 @@ var DrawControl = React.createClass({
       />
     );
   }
-});
+}
+
+DrawControl.defaultProps = {
+  position: 'topleft',
+  data: null,
+  edit: {},
+  draw: {},
+  style: {}
+};
 
 module.exports = DrawControl;

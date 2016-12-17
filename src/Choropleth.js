@@ -1,49 +1,40 @@
-var React = require('react');
-var { renderToStaticMarkup } = require('react-dom/server');
-var L = require('leaflet');
-var chroma = require('chroma-js');
-var GeoJSON = require('./GeoJSON');
-var InfoControl = require('./InfoControl');
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import L from 'leaflet';
+import chroma from 'chroma-js';
 
-var Choropleth = React.createClass({
+import GeoJSON from './GeoJSON';
+import InfoControl from './InfoControl';
 
-  getDefaultProps: function() {
-    return {
-      data: null,
-      valueProperty: null,
-      scale: ['white', 'red'],
-      steps: 5,
-      mode: 'q',
-      style: {},
-      legend: false,
-      legendClass: 'info legend'
-    };
-  },
-  componentDidMount: function() {
+class Choropleth extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
+  componentDidMount() {
     this.values = this.getValues(this.props.data); 
     this.limits = this.getLimits(this.values); 
     this.colors = this.getColors();
+  }
 
-  },
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.data) {
       this.values = this.getValues(nextProps.data); 
       this.limits = this.getLimits(this.values); 
       this.colors = this.getColors();
     }
-  },
+  }
 
-  getValues: function(data) {
+  getValues(data) {
     return data ? data.features
       .map(feature => (typeof this.props.valueProperty === 'function') ? 
            this.props.valueProperty(feature)
              :
                feature.properties[this.props.valueProperty])
                : [];
-  },
+  }
 
-  getLimits: function(values) {
+  getLimits(values) {
     return this.props.buckets ? this.props.buckets : (
       this.props.limits ? 
          Array.from({ length: this.props.steps+1 }, (v, i) => i === this.props.steps ? this.props.limits[1] : this.props.limits[0] + (i*Math.round((this.props.limits[1]-this.props.limits[0])/(this.props.steps)))) 
@@ -51,17 +42,17 @@ var Choropleth = React.createClass({
               chroma.limits(values, this.props.mode, this.props.steps)
               : [])
     );
-  },
+  }
   
-  limitsToBuckets: function() {
+  limitsToBuckets() {
     return this.limits.map((limit, i, arr) => i < arr.length - 1 ? [arr[i], arr[i+1]] : null).filter((x, i, arr) => i < arr.length -1);
-  },
+  }
 
-  getColors: function() {
+  getColors() {
     return this.props.colors || chroma.scale(this.props.scale).colors(this.props.steps+1);
-  },
+  }
 
-  getStyle: function() {
+  getStyle() {
     return feature => {
       const style = typeof this.props.style === 'function' ? {...this.props.style()} : {...this.props.style};
       const value = (typeof this.props.valueProperty === 'function') ? 
@@ -84,9 +75,9 @@ var Choropleth = React.createClass({
       return style;
 
     };
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div>
         {
@@ -111,28 +102,47 @@ var Choropleth = React.createClass({
       </div>
     );
   }
-});
+}
 
-var InitLegend = React.createClass({
-  componentDidMount: function() {
+Choropleth.defaultProps = {
+  data: null,
+  valueProperty: null,
+  scale: ['white', 'red'],
+  steps: 5,
+  mode: 'q',
+  style: {},
+  legend: false,
+  legendClass: 'info legend'
+};
+
+
+class InitLegend extends React.Component {
+  
+  constructor(props) {
+    super(props);
+  }
+  
+  componentDidMount() {
     this.props.updateInfo('');
 
     const buckets = this.props.buckets;
     const colors = this.props.colors;
     
     this.props.updateInfo(renderToStaticMarkup(<LegendMarkup buckets={buckets} colors={colors} />));
-  },
-  componentWillReceiveProps: function(nextProps) {
+  }
+
+  componentWillReceiveProps(nextProps) {
     const buckets = nextProps.buckets || this.props.buckets;
     const colors = nextProps.colors || this.props.colors;
 
     this.props.updateInfo('');
     this.props.updateInfo(renderToStaticMarkup(<LegendMarkup buckets={buckets} colors={colors} />));
-  },
-  render: function() {
+  }
+
+  render() {
     return null;
   }
-});
+}
 
 function LegendMarkup (props) {
   const { buckets, colors } = props;

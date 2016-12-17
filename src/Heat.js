@@ -1,31 +1,24 @@
-var React = require('react');
-var L = require('leaflet');
-require('leaflet.heat');
+import React from 'react';
+import L from 'leaflet';
+import 'leaflet.heat';
 
-var ControlHandlers = require('./handlers/');
+import ControlHandlers from './handlers/';
 
-var HeatLayer = React.createClass({
-  
-  getDefaultProps: function() {
-    return {
-      data: null,
-      style: {},
-      name: 'Heatmap',
-      radius: 30,
-      maxZoom: 11
-    };
-  },
+class HeatLayer  extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  componentWillMount: function() {
+  componentWillMount() {
     this.layer = L.heatLayer(this.props.data, this.props)
     .addTo(this.props.map);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.layer.remove();
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <ControlHandlers
         layer={this.layer}
@@ -33,7 +26,15 @@ var HeatLayer = React.createClass({
       />
     );
   }
-});
+}
+
+HeatLayer.defaultProps = {
+  data: null,
+  style: {},
+  name: 'Heatmap',
+  radius: 30,
+  maxZoom: 11
+};
 
 module.exports = HeatLayer;
 

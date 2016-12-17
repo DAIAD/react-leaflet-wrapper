@@ -1,15 +1,21 @@
-var React = require('react');
+import React from 'react';
 
-var HandleLayerGroup = React.createClass({
-  componentWillMount: function() {
+class HandleLayerGroup extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {
     this.props.layerGroup.addLayer(this.props.layer);
-  },
-  componentWillUnmount: function() {
+  }
+
+  componentWillUnmount() {
     this.props.layerGroup.removeLayer(this.props.layer);
-  },
-  render: function() {
+  }
+
+  render() {
     return null;
   }
-});
+}
 
 module.exports = HandleLayerGroup;

@@ -1,24 +1,22 @@
-var React = require('react');
-var L = require('leaflet');
+import React from 'react';
+import L from 'leaflet';
 
-var LayersControl = React.createClass({
-  
-  getDefaultProps: function() {
-    return {
-      position: 'topright'
-    };
-  },
+class LayersControl  extends React.Component {
 
-  componentWillMount: function() {
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {
     this.control = L.control.layers({}, {}, { position: this.props.position });
     this.control.addTo(this.props.map);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.control.remove();
-  }, 
+  }
 
-  render: function() {
+  render() {
     return (
       <div>
         {
@@ -31,7 +29,12 @@ var LayersControl = React.createClass({
         } 
       </div>
     );
-  },
-});
+  }
+}
+
+LayersControl.defaultProps = {
+  position: 'topright'
+};
+
 
 module.exports = LayersControl;
