@@ -46,10 +46,6 @@ class GeoJSON  extends React.Component {
   featureMouseover(feature, layer) {
     if (this.props.highlightStyle && (layer.feature.geometry.type !== 'Point' || this.props.circleMarkers)) {
       layer.setStyle(this.props.highlightStyle);
-      
-      if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront();
-      }
     }
     
     this.setState({ mouseover: feature });
