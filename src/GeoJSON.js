@@ -44,6 +44,10 @@ class GeoJSON  extends React.Component {
   }
 
   featureMouseover(feature, layer) {
+    if (typeof this.props.onMouseover === 'function') {
+      this.props.onMouseover(feature, layer, this.props.map);
+    }
+
     if (this.props.highlightStyle && (layer.feature.geometry.type !== 'Point' || this.props.circleMarkers)) {
       layer.setStyle(this.props.highlightStyle);
     }
@@ -52,6 +56,9 @@ class GeoJSON  extends React.Component {
   }
 
   featureMouseout(feature, layer) {
+    if (typeof this.props.onMouseout === 'function') {
+      this.props.onMouseout(feature, layer, this.props.map);
+    }
     if (this.props.highlightStyle && (layer.feature.geometry.type !== 'Point' || this.props.circleMarkers)) {
     this.layer.resetStyle(layer);
     }

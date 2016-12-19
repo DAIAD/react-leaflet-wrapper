@@ -43,6 +43,7 @@ export default class Example3 extends React.Component {
               colors={['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026']}
               infoContent={feature => InfoContent(feature)}
               onClick={(feature, layer, map) => map.fitBounds(layer.getBounds()) }
+              onMouseover={(feature, layer, map) => layer.bringToFront() }
               style={{
                 weight: 2,
                 opacity: 1,

@@ -30,14 +30,26 @@ class Marker  extends React.Component {
   }
 
   onMarkerClick(e) {
-    this.setState({ click: e.target }); 
+    const layer = e.target;
+    if (typeof this.props.onClick === 'function') {
+      this.props.onClick(layer, this.props.map);
+    }
+    this.setState({ click: layer }); 
   }
 
   onMarkerMouseover(e) {
+    const layer = e.target;
+    if (typeof this.props.onMouseover === 'function') {
+      this.props.onMouseover(layer, this.props.map);
+    }
     this.setState({ mouseover: e.target });
   }
 
   onMarkerMouseout(e) {
+    const layer = e.target;
+    if (typeof this.props.onMouseout === 'function') {
+      this.props.onMouseout(layer, this.props.map);
+    }
     this.setState({ mouseover: null });
   }
 
