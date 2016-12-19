@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var HOST = process.env.HOT_LOAD_HOST || 'localhost';
 var HOTLOADPORT = process.env.HOT_LOAD_PORT || 8089;
@@ -25,11 +26,10 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
-      }
-    }),
+    new CopyWebpackPlugin([{
+      from: './example/assets', 
+      to: './'
+    }])
   ],
   output: {
     filename: "bundle.js",
