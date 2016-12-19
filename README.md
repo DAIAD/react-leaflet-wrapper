@@ -40,7 +40,8 @@ A quick-start example is shown here
     import { Map, TileLayer, Marker } from 'react-leaflet-wrapper';
     
     <Map
-      style={{ width: '100%', height: 300 }}
+      width='100%'
+      height={300}
       center={[51.505, -0.09]}
       zoom={13}
     >
