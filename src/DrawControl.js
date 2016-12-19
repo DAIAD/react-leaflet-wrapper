@@ -35,12 +35,6 @@ class DrawControl  extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    //if (nextProps.data !== this.state.data) {
-    //  this.setState({ data: nextProps.data });
-    //}
-  }
-
   componentWillUnmount() {
     this.control.remove();
     
@@ -95,7 +89,9 @@ class DrawControl  extends React.Component {
   }
 
   updateData(data) {
-    this.setState({ data });
+    if (!this.props.controlled) {
+      this.setState({ data });
+    }
 
     if(typeof this.props.onFeatureChange === 'function') {
       this.props.onFeatureChange(data);
@@ -111,7 +107,7 @@ class DrawControl  extends React.Component {
           }
         }}
         {...this.props}
-        data={this.state.data}
+        data={this.props.controlled ? this.props.data : this.state.data}
       />
     );
   }
@@ -125,7 +121,8 @@ DrawControl.defaultProps = {
   style: {
     color: '#2c3e50',
     fillColor: '#2980b9'
-  }
+  },
+  controlled: false
 };
 
 module.exports = DrawControl;

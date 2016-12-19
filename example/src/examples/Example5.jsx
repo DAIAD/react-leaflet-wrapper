@@ -27,6 +27,7 @@ export default class Example5 extends React.Component {
           <TileLayer />
 
           <DrawControl
+            controlled
             onFeatureChange={features => this.setState({ geometry: features })}
             data={geometry}
             style={{ 
