@@ -84,10 +84,10 @@ class GeoJSON  extends React.Component {
   render() {
     return (
         <ControlHandlers
+          {...this.props} 
           layer={this.layer}
           click={this.state.click}
           mouseover={this.state.mouseover}
-          {...this.props} 
         />
     );
   }

@@ -24,9 +24,9 @@ class Tile  extends React.Component {
     return (
       <div>
         <ControlHandlers
+          {...this.props} 
           layer={this.layer}
           type='base'
-          {...this.props} 
         />
       </div>
     );

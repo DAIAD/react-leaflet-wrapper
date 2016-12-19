@@ -21,8 +21,8 @@ class HeatLayer  extends React.Component {
   render() {
     return (
       <ControlHandlers
-        layer={this.layer}
         {...this.props} 
+        layer={this.layer}
       />
     );
   }

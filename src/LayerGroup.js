@@ -30,8 +30,8 @@ class LayerGroup  extends React.Component {
             })
         } 
         <HandleLayersControl 
-          layer={this.layer}
           {...this.props}
+          layer={this.layer}
         />
       </div>
     );
