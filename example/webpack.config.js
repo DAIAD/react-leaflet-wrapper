@@ -5,7 +5,7 @@ module.exports = {
   context: __dirname,
   devtool: 'cheap-module-source-map', 
   entry: [
-    "./example/client.jsx"
+    "./client.jsx"
   ],
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -27,6 +27,6 @@ module.exports = {
   ],
   output: {
     filename: "bundle.js",
-    path: __dirname + "/example/dist/"
+    path: __dirname + "/dist/"
   },
 }
