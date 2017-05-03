@@ -11,7 +11,7 @@ class Choropleth extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.values = this.getValues(this.props.data); 
     this.limits = this.getLimits(this.values); 
     this.colors = this.getColors();
