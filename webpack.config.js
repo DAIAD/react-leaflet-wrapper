@@ -3,15 +3,14 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   context: __dirname,
-  devtool: 'cheap-module-source-map', 
   entry: [
-    "./client.jsx"
+    "./example/client.jsx"
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -27,6 +26,7 @@ module.exports = {
   ],
   output: {
     filename: "bundle.js",
+    publicPath: '/dist/',
     path: __dirname + "/dist/"
   },
 }

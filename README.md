@@ -56,8 +56,8 @@ A quick-start example is shown here
     </Map>
 
 
-For more examples: 
+For more examples:
     
-    NODE_HOST=localhost NODE_PORT=3000 npm run example
+    npm run start
 
 Requires node >= 4.3.2
