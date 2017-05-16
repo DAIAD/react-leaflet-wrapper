@@ -2,7 +2,7 @@ import React from 'react';
 import fetch from 'isomorphic-fetch';
 import { Map, TileLayer, Choropleth, InfoControl } from '../../../src/';
 
-const STATES_URL = 'dist/states.json';
+const STATES_URL = '/react-leaflet-wrapper/dist/states.json';
 
 export default class Example3 extends React.Component {
 
