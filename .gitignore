@@ -1,7 +1,6 @@
 *.swp
 *.log
 build
-dist
 node_modules
 scratch*.js
 example/dist
