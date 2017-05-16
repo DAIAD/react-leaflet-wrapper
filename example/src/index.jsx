@@ -67,10 +67,14 @@ export default class Examples extends React.Component {
   }
 
   render() {
-    const selected = examples.find(ex => ex.path === window.location.pathname);
+    const selected = examples.find(ex => ex.path === window.location.pathname) || examples[0];
     return (
       <div>
-        <h1>Leaflet examples</h1>
+        <h1>Examples</h1>
+        <p>
+          The following replicate some examples from Leaflet's page. <br />
+          Check <a href="http://leafletjs.com/examples.html">http://leafletjs.com/examples.html</a>
+        </p>
         <ExampleSelector items={examples} />
         <hr />
         <div style={{ width: '80%', margin: '0 auto' }}>
