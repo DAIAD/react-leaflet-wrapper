@@ -15,12 +15,10 @@ export default class Example5 extends React.Component {
     const { geometry } = this.state;
     return (
       <div>
-        <h1>Leaflet draw control</h1>
-
         <button style={{ float: 'right', marginBottom: 20 }} onClick={() => { this.setState({ geometry: null }); }}>Reset geometry</button>
         <Map
           width='100%'
-          height={600}
+          height={500}
           center={[39.73, -104.99]}
           zoom={10}
           >
@@ -35,9 +33,7 @@ export default class Example5 extends React.Component {
               fillColor: '#2980b9'
             }}
           />
-
         </Map>
-       
       </div>
     );
   }
