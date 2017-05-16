@@ -22,7 +22,7 @@ export default class Example2 extends React.Component {
            zoom={13}
            >
            <TileLayer
-             url='https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw'
+             url='https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic3RlbGlvc21hbiIsImEiOiJjajJyc29qc2cwMDEwMndwYm43b3Q2a3RkIn0.Oq2yDGwP5mBx-7S9Td_e2w'
              attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
              id='mapbox.light'
            />

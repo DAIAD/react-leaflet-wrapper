@@ -80,12 +80,9 @@ export default class Examples extends React.Component {
         <h1>Leaflet examples</h1>
         <ExampleSelector items={examples} select={this._select.bind(this)} selected={this.state.selected} />
         <hr />
-        <div style={{ width: '15%', float: 'left', height: '80vh', padding: 10, borderRight: '1px #000 solid' }}>
+        <div style={{ width: '80%', margin: '0 auto' }}>
           <h2>{selected.title}</h2>
           <p>{selected.description}</p>
-          <p><b>Code:</b> <a href={selected.url}>{selected.url}</a></p>
-        </div>
-        <div style={{ width: '80%', float: 'left', height: '80vh', padding: 10 }}> 
           <Component />
         </div>
       </div>
