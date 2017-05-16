@@ -1,6 +1,7 @@
 # react-leaflet-wrapper
 
 React components that wrap Leaflet js v.1.0.0 (http://leafletjs.com) elements. <br><br>
+Check out the live demo [here](https://smanousopoulos.github.io/react-leaflet-wrapper/)
 
 ## Installation
     npm install --save https://github.com/DAIAD/react-leaflet-wrapper.git
@@ -56,7 +57,7 @@ A quick-start example is shown here
     </Map>
 
 
-For more examples:
+You can run the examples locally:
     
     npm run start
 
