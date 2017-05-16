@@ -30,11 +30,9 @@
     "webpack": "~1.12.14",
     "webpack-dev-server": "~1.14.1"
   },
-  "peerDependencies": {
-    "react": "^15.0.0",
-    "react-dom": "^15.0.0"
-  },
   "dependencies": {
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0",
     "chroma-js": "1.2.1",
     "leaflet": "1.0.0",
     "leaflet-draw": "0.4.4",
