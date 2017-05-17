@@ -88,8 +88,6 @@ export default class Examples extends React.Component {
                   key={ex.path} 
                   path={ex.path} 
                   component={ex.component} 
-                  title={ex.title}
-                  description={ex.description}
                 />
                 ))
             }
